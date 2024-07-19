@@ -36,13 +36,13 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.6
   webview_flutter: ^4.8.0
-  webview_flutter_web: ^0.2.2+4
+  webview_flutter_web: ^0.2.3+1
 
 dependency_overrides:
     webview_flutter_web:
       git:
-        url: https://github.com/ThomasAunvik/flutter-packages.git
-        ref: 65a3a70100435ffa5b2e4c5193ba7477bab40b77
+        url: https://github.com/uldall/packages.git
+        ref: 5978b00bf33fca1b408b39f29cfec42ee8ffb3fc
         path: packages/webview_flutter/webview_flutter_web
 
 dev_dependencies:

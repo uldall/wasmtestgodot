@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:webview_flutter_web/webview_flutter_web.dart';
@@ -31,14 +32,27 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  WebViewController controller = WebViewController();
+  late WebViewController _webViewController;
 
-  _MyHomePageState() {
+  @override
+  void initState() {
+    super.initState();
+
+    _webViewController = WebViewController();
+
+    late final PlatformWebViewControllerCreationParams params;
     if (WebViewPlatform.instance is WebWebViewPlatform) {
-      final WebWebViewController webWebController =
-          controller.platform as WebWebViewController;
+      params = WebWebViewControllerCreationParams(
+        iFrameCredentialless: true,
+      );
+    } else {
+      params = const PlatformWebViewControllerCreationParams();
+    }
 
-      webWebController.setIFrameCredentialless(true);
+    _webViewController = WebViewController.fromPlatformCreationParams(params);
+
+    if (!kIsWeb) {
+      _webViewController.setJavaScriptMode(JavaScriptMode.unrestricted);
     }
   }
 
@@ -50,7 +64,7 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Text(widget.title),
       ),
       body: WebViewWidget(
-          controller: controller
+          controller: _webViewController
             ..loadRequest(Uri.parse(
                 'https://godotengine.github.io/godot-demo-projects/2d/bullet_shower/'))),
     );
